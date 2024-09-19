@@ -14,9 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from FRS.myapp import views
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', views.login_view, name='login'),
@@ -24,3 +26,6 @@ urlpatterns = [
     path('login2fa/', views.login2fa_view, name='login2fa'),
     path("webauthn/", include("django_otp_webauthn.urls", namespace="otp_webauthn")),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
