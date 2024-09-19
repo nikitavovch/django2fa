@@ -1,78 +1,34 @@
-<!-- logged_in_template.html -->
-{% load otp_webauthn %}
+<html>
+<head>
+    <title>WebAuthn Test</title>
+</head>
+<body>
+    <button id="register-button">Register Passkey</button>
+    <div id="status-message"></div>
 
-<h1>Welcome, {{ user.username }}!</h1>
-
-{% comment %}
-This template is displayed when WebAuthn registration is supported.
-The template must contain a button with the id `passkey-register-button`. To display status and error messages, include an element with the id `passkey-register-status-message`.
-{% endcomment %}
-<template id="passkey-registration-available-template">
-    <div>
-        <button type="button" id="passkey-register-button">Register Passkey</button>
-        <div id="passkey-register-status-message"></div>
-    </div>
-</template>
-
-{% comment %}
-This template is displayed when WebAuthn registration is not supported.
-{% endcomment %}
-<template id="passkey-registration-unavailable-template">
-    <p>Sorry, your browser has no Passkey support</p>
-</template>
-
-{% comment %}
-This placeholder element will be replaced with either the contents of the `passkey-registration-available-template` or the `passkey-registration-unavailable-template` template.
-{% endcomment %}
-<span id="passkey-registration-placeholder"></span>
-
-{% comment %}
-This template tag renders all the necessary <script> tags for the default registration implementation
-{% endcomment %}
-{% render_otp_webauthn_register_scripts %}
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const placeholder = document.getElementById('passkey-registration-placeholder');
-        const availableTemplate = document.getElementById('passkey-registration-available-template').innerHTML;
-        const unavailableTemplate = document.getElementById('passkey-registration-unavailable-template').innerHTML;
-
-        // Check if WebAuthn registration is supported
-        if (window.PublicKeyCredential && PublicKeyCredential.prototype.create) {
-            placeholder.innerHTML = availableTemplate;
-
-            document.getElementById('passkey-register-button').addEventListener('click', () => {
-                // Start the registration process
-                fetch('/webauthn/register-options/')
-                    .then(response => response.json())
-                    .then(options => {
-                        return navigator.credentials.create(options);
-                    })
-                    .then(credential => {
-                        // Send the credential to the server for verification
-                        return fetch('/webauthn/register/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                            body: JSON.stringify(credential)
-                        });
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            document.getElementById('passkey-register-status-message').textContent = 'Registration successful!';
-                        } else {
-                            document.getElementById('passkey-register-status-message').textContent = 'Registration failed: ' + result.error;
-                        }
-                    })
-                    .catch(error => {
-                        document.getElementById('passkey-register-status-message').textContent = 'Registration error: ' + error.message;
+    <script>
+        document.getElementById('register-button').addEventListener('click', () => {
+            fetch('/webauthn/register-options/')
+                .then(response => response.json())
+                .then(options => navigator.credentials.create(options))
+                .then(credential => {
+                    return fetch('/webauthn/register/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify(credential)
                     });
-            });
-        } else {
-            placeholder.innerHTML = unavailableTemplate;
-        }
-    });
-</script>
+                })
+                .then(response => response.json())
+                .then(result => {
+                    document.getElementById('status-message').textContent = result.success ? 'Registration successful!' : 'Registration failed: ' + result.error;
+                })
+                .catch(error => {
+                    document.getElementById('status-message').textContent = 'Registration error: ' + error.message;
+                });
+        });
+    </script>
+</body>
+</html>
