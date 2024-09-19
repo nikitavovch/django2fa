@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 
@@ -9,10 +10,11 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('login2fa')  # перенаправление на главную страницу
+            return redirect('login2fa')
         else:
             return render(request, 'templates/login.html', {'error': 'Неверный логин или пароль'})
     return render(request, 'templates/login.html')
 
-def login2fa_view(request):
-    return render(request, 'templates/login2fa.html')
+@login_required
+def login2fa(request):
+    return render(request, 'login2fa.html')

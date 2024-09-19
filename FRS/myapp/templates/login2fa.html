@@ -1,4 +1,7 @@
+<!-- logged_in_template.html -->
 {% load otp_webauthn %}
+
+<h1>Welcome, {{ user.username }}!</h1>
 
 {% comment %}
 This template is displayed when WebAuthn registration is supported.
@@ -27,3 +30,49 @@ This placeholder element will be replaced with either the contents of the `passk
 This template tag renders all the necessary <script> tags for the default registration implementation
 {% endcomment %}
 {% render_otp_webauthn_register_scripts %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const placeholder = document.getElementById('passkey-registration-placeholder');
+        const availableTemplate = document.getElementById('passkey-registration-available-template').innerHTML;
+        const unavailableTemplate = document.getElementById('passkey-registration-unavailable-template').innerHTML;
+
+        // Check if WebAuthn registration is supported
+        if (window.PublicKeyCredential && PublicKeyCredential.prototype.create) {
+            placeholder.innerHTML = availableTemplate;
+
+            document.getElementById('passkey-register-button').addEventListener('click', () => {
+                // Start the registration process
+                fetch('/webauthn/register-options/')
+                    .then(response => response.json())
+                    .then(options => {
+                        return navigator.credentials.create(options);
+                    })
+                    .then(credential => {
+                        // Send the credential to the server for verification
+                        return fetch('/webauthn/register/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify(credential)
+                        });
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            document.getElementById('passkey-register-status-message').textContent = 'Registration successful!';
+                        } else {
+                            document.getElementById('passkey-register-status-message').textContent = 'Registration failed: ' + result.error;
+                        }
+                    })
+                    .catch(error => {
+                        document.getElementById('passkey-register-status-message').textContent = 'Registration error: ' + error.message;
+                    });
+            });
+        } else {
+            placeholder.innerHTML = unavailableTemplate;
+        }
+    });
+</script>
