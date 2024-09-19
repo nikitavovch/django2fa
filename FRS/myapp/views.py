@@ -17,4 +17,4 @@ def login_view(request):
 
 @login_required
 def login2fa_view(request):
-    return render(request, 'login2fa.html')
+    return render(request, 'templates/login2fa.html')
