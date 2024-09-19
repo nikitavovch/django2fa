@@ -8,11 +8,11 @@
 
     <script>
         document.getElementById('register-button').addEventListener('click', () => {
-            fetch('/webauthn/register-options/')
+            fetch('/webauthn/registration/begin/')
                 .then(response => response.json())
                 .then(options => navigator.credentials.create(options))
                 .then(credential => {
-                    return fetch('/webauthn/register/', {
+                    return fetch('/webauthn/registration/complete/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
