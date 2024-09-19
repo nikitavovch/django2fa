@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-1jay4j4p9v_(l^e-@g2au=l&(ehzqs((5p%y2=+(!#t4+ds)e*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://nikitos1234.pythonanywhere.com']
 
 # Application definition
 
@@ -119,11 +119,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # The name of the relying party (RP). This is sometimes shown to the user when they register a Passkey.
-OTP_WEBAUTHN_RP_NAME = "2FA"
+OTP_WEBAUTHN_RP_NAME = "Django2FA"
 # This is necessary to bind the Passkey to a specific domain. This should be the domain of your website.
-OTP_WEBAUTHN_RP_ID = "myapp.local"
+OTP_WEBAUTHN_RP_ID = "nikitos1234.pythonanywhere.com"
 # This is used to check the origin of the request and is used for security. It is similar to Django's CSRF_TRUSTED_ORIGINS setting.
 # The origins must always be a subdomain of the RP ID or the RP ID itself.
-OTP_WEBAUTHN_ALLOWED_ORIGINS = ["https://myapp.local"]
+OTP_WEBAUTHN_ALLOWED_ORIGINS = ["https://nikitos1234.pythonanywhere.com"]
 
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://nikitos1234.pythonanywhere.com']
