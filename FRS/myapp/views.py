@@ -16,8 +16,8 @@ def login_view(request):
             else:
                 return redirect('register_passkey')
         else:
-            return render(request, 'login.html', {'error': 'Неверный логин или пароль'})
-    return render(request, 'login.html')
+            return render(request, 'templates/login.html', {'error': 'Неверный логин или пароль'})
+    return render(request, 'templates/login.html')
 
 def passreg_view(request):
     return render(request, 'templates/register_passkey.html')
