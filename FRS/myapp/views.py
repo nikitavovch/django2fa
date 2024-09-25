@@ -8,12 +8,12 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('register_passkey')
-        elif user is not None and WebAuthnCredential.objects.filter(user=request.user).exists():
+        if user is not None and WebAuthnCredential.objects.filter(user=request.user).exists():
             login(request, user)
             return redirect('dashboard')
+        elif user is not None:
+            login(request, user)
+            return redirect('register_passkey')
         else:
             return render(request, 'templates/login.html', {'error': 'Неверный логин или пароль'})
     return render(request, 'templates/login.html')
