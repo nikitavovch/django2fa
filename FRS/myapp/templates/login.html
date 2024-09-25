@@ -61,14 +61,17 @@
             {% csrf_token %}
             <input type="text" name="username" placeholder="Логин" required>
             <input type="password" name="password" placeholder="Пароль" required>
+
+            <!-- Скрытое поле для передачи параметра next -->
+            <input type="hidden" name="next" value="{{ next|default:'' }}">
+
             <button type="submit">Вход</button>
         </form>
 
         <span id="passkey-verification-placeholder"></span>
 
         <template id="passkey-verification-available-template">
-            <button type="button" id="passkey-verification-button"
-            onclick="window.location.href='{% url 'login' %}?next=/dashboard/'">Войти с помощью Passkey</button>
+            <button type="button" id="passkey-verification-button">Войти с помощью Passkey</button>
             <div id="passkey-verification-status-message"></div>
         </template>
 
