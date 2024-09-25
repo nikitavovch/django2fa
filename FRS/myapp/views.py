@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-
+from django_otp_webauthn.models import WebAuthnCredential
 
 def login_view(request):
     if request.method == 'POST':
@@ -17,4 +17,7 @@ def login_view(request):
 
 @login_required
 def login2fa_view(request):
-    return render(request, 'templates/login2fa.html')
+    if WebAuthnCredential.objects.filter(user=request.user).exists():
+        return render(request, 'templates/login2fa.html')
+    else:
+        return render(request, 'templates/register_passkey.html')
