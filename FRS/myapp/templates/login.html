@@ -67,7 +67,8 @@
         <span id="passkey-verification-placeholder"></span>
 
         <template id="passkey-verification-available-template">
-            <button type="button" id="passkey-verification-button">Войти с помощью Passkey</button>
+            <button type="button" id="passkey-verification-button"
+            onclick="window.location.href='{% url 'passkey_login' %}?next=/dashboard/'">Войти с помощью Passkey</button>
             <div id="passkey-verification-status-message"></div>
         </template>
 
