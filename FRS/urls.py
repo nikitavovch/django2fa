@@ -21,6 +21,7 @@ from FRS.myapp import views
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', views.login_view, name='home'),
     path('login/', views.login_view, name='login'),
     path('admin/', admin.site.urls),
     path('login2fa/', views.login2fa_view, name='login2fa'),
