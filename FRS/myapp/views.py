@@ -11,6 +11,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
+            WebAuthnCredential.objects.
             if WebAuthnCredential.objects.filter(user=user).exists():
                 return redirect('dashboard')
             else:

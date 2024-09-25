@@ -135,4 +135,8 @@ OTP_WEBAUTHN_RP_ID = "nikitos1234.pythonanywhere.com"
 # The origins must always be a subdomain of the RP ID or the RP ID itself.
 OTP_WEBAUTHN_ALLOWED_ORIGINS = ["https://nikitos1234.pythonanywhere.com"]
 
+AUTHENTICATION_BACKENDS = [
+    "django_otp_webauthn.backends.WebAuthnBackend",
+]
+
 CSRF_TRUSTED_ORIGINS = ['https://nikitos1234.pythonanywhere.com']
