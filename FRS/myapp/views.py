@@ -10,14 +10,14 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('login2fa')
+            return redirect('register_passkey')
+        elif user is not None and WebAuthnCredential.objects.filter(user=request.user).exists():
+            login(request, user)
+            return redirect('dashboard')
         else:
             return render(request, 'templates/login.html', {'error': 'Неверный логин или пароль'})
     return render(request, 'templates/login.html')
 
 @login_required
-def login2fa_view(request):
-    if WebAuthnCredential.objects.filter(user=request.user).exists():
-        return render(request, 'templates/login2fa.html')
-    else:
-        return render(request, 'templates/register_passkey.html')
+def dashboard_view(request):
+    return render(request, 'templates/dashboard.html',  {'username': request.user.username})
