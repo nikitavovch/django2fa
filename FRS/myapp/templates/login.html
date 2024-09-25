@@ -61,10 +61,6 @@
             {% csrf_token %}
             <input type="text" name="username" placeholder="Логин" required>
             <input type="password" name="password" placeholder="Пароль" required>
-
-            <!-- Скрытое поле для передачи параметра next -->
-            <input type="hidden" name="next" value="{{ next|default:'' }}">
-
             <button type="submit">Вход</button>
         </form>
 
