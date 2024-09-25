@@ -75,7 +75,7 @@
             <p>Извините, ваш браузер не поддерживает Passkey.</p>
         </template>
 
-        {% render_otp_webauthn_auth_scripts username_field_selector="input[name='username']" redirect_url="/dashboard" %}
+        {% render_otp_webauthn_auth_scripts username_field_selector="input[name='username']" completeAuthenticationUrl="/dashboard" %}
     </div>
 </body>
 </html>
