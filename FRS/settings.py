@@ -131,6 +131,7 @@ OTP_WEBAUTHN_RP_ID = "nikitos1234.pythonanywhere.com"
 OTP_WEBAUTHN_ALLOWED_ORIGINS = ["https://nikitos1234.pythonanywhere.com"]
 
 AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
     "django_otp_webauthn.backends.WebAuthnBackend",
 ]
 
