@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAuthn Two-Factor Authentication</title>
 </head>
 <body>
-    <h1>WebAuthn Two-Factor Authentication</h1>
-
     {% load otp_webauthn %}
-
     <!-- Authentication Section -->
     <section id="authentication-section">
-        <h2>Authenticate with Passkey</h2>
 
-        <template id="passkey-authentication-available-template">
-            <div>
-                <button type="button" id="passkey-authenticate-button">Authenticate</button>
-                <div id="passkey-authenticate-status-message"></div>
-            </div>
+        <template id="passkey-verification-available-template">
+        <button type="button" id="passkey-verification-button">Login using a Passkey</button>
+        <div id="passkey-verification-status-message"></div>
         </template>
 
         <template id="passkey-authentication-unavailable-template">
