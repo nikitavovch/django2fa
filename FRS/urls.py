@@ -24,7 +24,8 @@ urlpatterns = [
     path('', views.login_view, name='home'),
     path('login/', views.login_view, name='login'),
     path('admin/', admin.site.urls),
-    path('login2fa/', views.login2fa_view, name='login2fa'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('register_passkey/', views.dashboard_view, name='register_passkey'),
     path("webauthn/", include("django_otp_webauthn.urls", namespace="otp_webauthn")),
 ]
 

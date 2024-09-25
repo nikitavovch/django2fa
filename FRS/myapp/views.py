@@ -18,6 +18,8 @@ def login_view(request):
             return render(request, 'templates/login.html', {'error': 'Неверный логин или пароль'})
     return render(request, 'templates/login.html')
 
+def passreg_view(request):
+    return render(request, 'templates/register_passkey.html')
 @login_required
 def dashboard_view(request):
     return render(request, 'templates/dashboard.html',  {'username': request.user.username})
