@@ -134,5 +134,5 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "django_otp_webauthn.backends.WebAuthnBackend",
 ]
-
+LOGIN_REDIRECT_URL = '/dashboard'
 CSRF_TRUSTED_ORIGINS = ['https://nikitos1234.pythonanywhere.com']
