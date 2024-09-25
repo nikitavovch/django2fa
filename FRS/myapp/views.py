@@ -19,6 +19,7 @@ def login_view(request):
             return render(request, 'templates/login.html', {'error': 'Неверный логин или пароль'})
     return render(request, 'templates/login.html')
 
+@login_required
 def passreg_view(request):
     return render(request, 'templates/register_passkey.html')
 @login_required
